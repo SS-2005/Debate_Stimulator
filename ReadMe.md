@@ -40,6 +40,15 @@ https://drive.google.com/file/d/1qn89U9bmIHWL2yywtMbBdBRk3Ui8NN2H/view?usp=shari
 - ✅ **Deterministic Execution**: Reproducible results with seed control
 - ✅ **Fallback System**: Template-based arguments ensure debate completion
 
+
+## 🚀 Quick Start
+
+### Basic Usage
+
+1. Run the cells sequence wise (Version 3 cell Block of Colab Notebook)
+2. Enter debate topic
+3. View Argument and Winner
+
 ### Technical Features
 - 🔧 Built with **LangGraph** for state machine orchestration
 - 🤖 Uses **GPT-2 Large** for text generation
@@ -143,13 +152,6 @@ matplotlib>=3.7.0
 
 ---
 
-## 🚀 Quick Start
-
-### Basic Usage
-
-1. Run the cells sequence wise
-2. Enter debate topic
-3. View Argument and Winner
 
 
 

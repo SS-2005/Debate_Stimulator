@@ -20,6 +20,12 @@ This system implements a structured debate between two AI agents on any given to
 
 ---
 
+## Video Demonstration:
+
+https://drive.google.com/file/d/1qn89U9bmIHWL2yywtMbBdBRk3Ui8NN2H/view?usp=sharing
+
+
+---
 ## ✨ Features
 
 ### Core Features

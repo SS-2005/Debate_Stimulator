@@ -2,32 +2,12 @@
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
+[![Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hCEaUmUpT5nZS4BeBDs4tRgAfkpis6Tf?usp=sharing)
 
 A production-grade multi-agent debate system built with LangGraph that orchestrates formal debates between two AI agents with strict turn control, memory management, validation, and impartial judging.
 
 ---
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Models Used](#models-used)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [How It Works](#how-it-works)
-- [System Design](#system-design)
-- [Configuration](#configuration)
-- [Output Files](#output-files)
-- [Constraints](#constraints)
-- [Future Improvements](#future-improvements)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
-
----
 
 ## 🎯 Overview
 
@@ -36,7 +16,7 @@ This system implements a structured debate between two AI agents on any given to
 **Version:** 3.0 (Fallback-Enhanced)  
 **Status:** ✅ Production Ready  
 **Environment:** Google Colab Compatible  
-**Cost:** 100% Free (No API keys required)
+**Cost:** Free 
 
 ---
 
@@ -74,7 +54,7 @@ This system implements a structured debate between two AI agents on any given to
 │  START → Agent Node ⟲ (8 turns) → Judge → END  │
 │                                                 │
 │  Components:                                    │
-│  • DebateLLM (GPT-2 Large)                     │
+│  • DebateLLM (GPT-2 Large)                      │
 │  • Validator (Semantic Similarity)              │
 │  • Logger (JSONL Event Tracking)                │
 │  • Memory (Structured JSON State)               │
@@ -141,13 +121,7 @@ A single GPT-2 Large model is used throughout the system, with different roles a
 
 ## 📋 Requirements
 
-### System Requirements
-
-- **Python**: 3.8 or higher
-- **GPU Memory**: 4GB+ (recommended for GPT-2 Large)
-- **RAM**: 8GB+ minimum
-- **Disk Space**: 3GB+ for model weights
-- **OS**: Linux, macOS, or Windows with WSL
+### System Requirements: Google Colab 
 
 ### Python Dependencies
 
@@ -160,44 +134,6 @@ networkx>=3.0
 matplotlib>=3.7.0
 ```
 
----
-
-## 📦 Installation
-
-### Option 1: Google Colab (Recommended)
-
-```python
-# Install dependencies
-!pip install -q transformers==4.36.2 torch sentence-transformers langgraph networkx matplotlib
-
-# Run the system
-# (Copy and paste the complete code into a Colab cell)
-```
-
-### Option 2: Local Installation
-
-```bash
-# Clone or download the repository
-git clone <repository-url>
-cd ai-debate-system
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the system
-python debate_system.py
-```
-
-### Option 3: Docker (Coming Soon)
-
-```bash
-docker pull ai-debate-system:latest
-docker run -it ai-debate-system
-```
 
 ---
 
@@ -205,32 +141,11 @@ docker run -it ai-debate-system
 
 ### Basic Usage
 
-```python
-# Run the debate system
-python debate_system.py
-```
+1. Run the cells sequence wise
+2. Enter debate topic
+3. View Argument and Winner
 
-You'll be prompted to enter a debate topic:
-```
-Enter debate topic: Should AI be used in medical systems?
-```
 
-### Programmatic Usage
-
-```python
-from debate_system import run_debate
-
-# Run debate with custom parameters
-result = run_debate(
-    topic="Should AI be used in medical diagnosis?",
-    seed=42,
-    log_path="my_debate.jsonl"
-)
-
-# Access results
-print(f"Total turns: {result['turn']}")
-print(f"Winner: {result['memory'][-1]['agent']}")
-```
 
 ### Expected Output
 
@@ -488,31 +403,6 @@ Justification: [Detailed explanation of why this side won]
 
 ---
 
-## ⚙️ Configuration
-
-### Command-Line Arguments (Future Enhancement)
-
-```bash
-python debate_system.py \
-    --topic "Should AI replace human doctors?" \
-    --seed 42 \
-    --log-path "custom_debate.jsonl" \
-    --max-turns 8
-```
-
-### Environment Variables
-
-```bash
-# Set random seed
-export DEBATE_SEED=42
-
-# Set log output path
-export DEBATE_LOG_PATH="./logs/debate.jsonl"
-
-# Enable debug mode
-export DEBATE_DEBUG=1
-```
-
 ### Model Configuration
 
 Modify these parameters in the code to adjust model behavior:
@@ -593,14 +483,12 @@ for arg in arguments:
 | Max retries | 5 per turn | Efficient fallback handling |
 | Context length | 512 tokens | GPT-2 model limitation |
 
-### Resource Requirements
+### Alternative Models Considered & Rejected:
 
-| Resource | Minimum | Recommended | Notes |
-|----------|---------|-------------|-------|
-| GPU Memory | 4GB | 8GB+ | For FP16 inference |
-| System RAM | 8GB | 16GB+ | Model + embeddings |
-| Disk Space | 3GB | 5GB+ | Model weights + logs |
-| Python | 3.8+ | 3.10+ | Modern features |
+- ❌ Phi-3-mini: DynamicCache attribute errors
+- ❌ FLAN-T5: Instruction-following but verbose
+- ❌ GPT-Neo: Larger, slower, marginal gains
+- ❌ API Models (Claude): Require payment
 
 ### Model Limitations
 
@@ -683,139 +571,11 @@ for arg in arguments:
 
 ---
 
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Issue: Model loading fails**
-```
-Error: Could not load model gpt2-large
-```
-**Solution**: 
-- Ensure internet connection for first-time download
-- Check disk space (need 3GB+)
-- Try clearing Hugging Face cache: `rm -rf ~/.cache/huggingface`
-
-**Issue: Out of memory error**
-```
-RuntimeError: CUDA out of memory
-```
-**Solution**:
-- Reduce batch size or use CPU
-- Close other GPU-intensive applications
-- Use FP16 precision: `torch_dtype=torch.float16`
-
-**Issue: Generation produces gibberish**
-```
-Generated text: "asdfkjhasd @@## 12345"
-```
-**Solution**:
-- System uses fallback templates automatically
-- Check if model loaded correctly
-- Verify model compatibility
-
-**Issue: Debate hangs/freezes**
-```
-Stuck at "Generating argument..."
-```
-**Solution**:
-- Check GPU utilization
-- Interrupt and restart (Ctrl+C)
-- Reduce `max_new_tokens` parameter
-
-### Debug Mode
-
-Enable verbose logging:
-
-```python
-import logging
-logging.basicConfig(level=logging.DEBUG)
-```
-
-### Getting Help
-
-1. Check logs in `debate_log.jsonl`
-2. Verify all dependencies installed: `pip list`
-3. Test GPU availability: `torch.cuda.is_available()`
-4. Open an issue on GitHub with logs attached
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help:
-
-### Areas for Contribution
-
-- 🐛 Bug fixes and error handling
-- ✨ New features (see Future Improvements)
-- 📚 Documentation improvements
-- 🧪 Test coverage expansion
-- 🌍 Multi-language support
-- 🎨 UI/UX enhancements
-
-### Development Setup
-
-```bash
-# Fork and clone repository
-git clone <your-fork-url>
-cd ai-debate-system
-
-# Create development branch
-git checkout -b feature/your-feature-name
-
-# Install dev dependencies
-pip install -r requirements-dev.txt
-
-# Run tests
-pytest tests/
-
-# Submit pull request
-```
-
-### Code Style
-
-- Follow PEP 8 guidelines
-- Add docstrings to all functions
-- Include type hints
-- Write unit tests for new features
-
----
 
 ## 📄 License
 
 MIT License
 
-Copyright (c) 2025 AI Debate System
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
----
-
-## 📞 Contact & Support
-
-- **Documentation**: [View full docs](#)
-- **Issues**: [Report bugs](https://github.com/your-repo/issues)
-- **Discussions**: [Community forum](https://github.com/your-repo/discussions)
-- **Email**: support@ai-debate-system.com
-
----
 
 ## 🎓 Educational Use
 
@@ -865,12 +625,5 @@ Typical performance on Google Colab (T4 GPU):
 1. LangGraph Documentation: https://langchain-ai.github.io/langgraph/
 2. GPT-2 Paper: "Language Models are Unsupervised Multitask Learners"
 3. Sentence-BERT Paper: "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks"
-4. Debate Systems Literature: [Academic references]
-
 ---
 
-**Version**: 3.0 (Fallback-Enhanced)  
-**Last Updated**: January 2025  
-**Status**: ✅ Production Ready  
-
-**Built with ❤️ for the AI community**
